@@ -1,0 +1,1 @@
+require 'elasticsearch_newrelic/instrumentation'
