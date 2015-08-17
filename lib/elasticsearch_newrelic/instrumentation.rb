@@ -10,7 +10,7 @@ DependencyDetection.defer do
   end
 
   executes do
-    NewRelic::Agent.logger.info 'Installing ElasticSearch Instrumentation'
+    NewRelic::Agent.logger.info 'Installing Elasticsearch Instrumentation'
   end
 
   executes do
@@ -24,11 +24,11 @@ DependencyDetection.defer do
         index_name = definition[:index] || 'nil'
         result = nil
         callback = proc do |res, metric, elapsed|
-          NewRelic::Agent::Datastores.notice_statement(index_name, elapsed)
+          NewRelic::Agent::Datastores.notice_statement(definition.inspect, elapsed)
           result = res
         end
 
-        NewRelic::Agent::Datastores.wrap("ElasticSearch", "search", index_name, callback) do
+        NewRelic::Agent::Datastores.wrap("Elasticsearch", "search", index_name, callback) do
           execute_without_newrelic_trace
         end
         result
