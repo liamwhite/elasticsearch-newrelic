@@ -16,26 +16,25 @@ DependencyDetection.defer do
   executes do
     require 'new_relic/agent/datastores'
 
-    ::Elasticsearch::Model::Searching::SearchRequest.class_eval do
+    ::Elasticsearch::Transport::Client.class_eval do
       # Method to hijack
-      execute_method = :execute!
+      execute_method = :perform_request
 
-      def execute_with_newrelic_trace
-        index_name = definition[:index] || 'nil'
+      def perform_request_with_newrelic_trace(method, path, params={}, body=nil)
         result = nil
         callback = proc do |res, metric, elapsed|
-          NewRelic::Agent::Datastores.notice_statement(definition.inspect, elapsed)
+          NewRelic::Agent::Datastores.notice_statement(body.inspect, elapsed)
           result = res
         end
 
-        NewRelic::Agent::Datastores.wrap("Elasticsearch", "search", index_name, callback) do
-          execute_without_newrelic_trace
+        NewRelic::Agent::Datastores.wrap("Elasticsearch", "search", path, callback) do
+          perform_request_without_newrelic_trace(method, path, params, body)
         end
         result
       end
 
-      alias_method :execute_without_newrelic_trace, execute_method
-      alias_method execute_method, :execute_with_newrelic_trace
+      alias_method :perform_request_without_newrelic_trace, execute_method
+      alias_method execute_method, :perform_request_with_newrelic_trace
     end
   end
 end

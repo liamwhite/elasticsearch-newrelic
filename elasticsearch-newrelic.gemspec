@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'elasticsearch-newrelic'
-  s.version     = '0.0.0'
-  s.date        = '2015-08-16'
+  s.version     = '0.0.1'
+  s.date        = '2016-04-10'
   s.summary     = "Elasticsearch instrumentation for New Relic"
   s.description = "Elasticsearch instrumentation for New Relic"
   s.authors     = ["Liam P. White"]
@@ -10,6 +10,6 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://example.com'
   s.license     = 'MIT'
 
-  s.add_runtime_dependency 'elasticsearch-model', ['~> 0.1']
-  s.add_runtime_dependency 'newrelic_rpm', ['~> 3.12']
+  s.add_runtime_dependency 'elasticsearch', ['~> 1.0']
+  s.add_runtime_dependency 'newrelic_rpm', ['~> 3.15']
 end
