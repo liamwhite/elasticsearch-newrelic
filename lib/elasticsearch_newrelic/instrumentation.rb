@@ -21,8 +21,8 @@ DependencyDetection.defer do
       # Method to hijack
       execute_method = :perform_request
 
-      def perform_request_with_newrelic_trace(method, path, params={}, body=nil)
-        return perform_request_without_newrelic_trace(method, path, params, body) unless method == 'GET'
+      def perform_request_with_newrelic_trace(method, path, params={}, body=nil, headers=nil)
+        return perform_request_without_newrelic_trace(method, path, params, body, headers) unless method == 'GET'
 
         result = nil
         callback = proc do |res, metric, elapsed|
@@ -31,7 +31,7 @@ DependencyDetection.defer do
         end
 
         NewRelic::Agent::Datastores.wrap("Elasticsearch", "search", __tracepath(path), callback) do
-          perform_request_without_newrelic_trace(method, path, params, body)
+          perform_request_without_newrelic_trace(method, path, params, body, headers)
         end
         result
       end

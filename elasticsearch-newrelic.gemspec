@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'elasticsearch-newrelic'
-  s.version     = '0.1.1'
+  s.version     = '0.2.0'
   s.date        = '2017-02-12'
   s.summary     = "Elasticsearch instrumentation for New Relic"
   s.description = "Elasticsearch instrumentation for New Relic"
